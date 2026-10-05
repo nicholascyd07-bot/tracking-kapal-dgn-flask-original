@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisasi Jenis Bencana (Filter)</title>
+    <!-- Pemanggilan File CSS Eksternal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='flask-dari-postgre-filter.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/filter_2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/disaster_pie.css') }}">
+</head>
+<body>
+
+    <h2>Visualisasi Jenis Bencana</h2>
+
+    <!-- Form Filter -->
+    <div class="filter-card">
+        <form method="GET" action="/disaster_type_pie/" class="filter-form">
+            
+            <!-- Tanggal -->
+            <div class="form-group">
+                <label for="start_date">Dari Tanggal:</label>
+                <input type="date" id="start_date" name="start_date" value="{{ filters.start_date }}">
+            </div>
+            <div class="form-group">
+                <label for="end_date">Sampai Tanggal:</label>
+                <input type="date" id="end_date" name="end_date" value="{{ filters.end_date }}">
+            </div>
+
+            <!-- Depth -->
+            <div class="form-group">
+                <label for="min_depth">Min Depth:</label>
+                <input type="number" step="any" id="min_depth" name="min_depth" placeholder="Contoh: 0" value="{{ filters.min_depth }}">
+            </div>
+            <div class="form-group">
+                <label for="max_depth">Max Depth:</label>
+                <input type="number" step="any" id="max_depth" name="max_depth" placeholder="Contoh: 100000" value="{{ filters.max_depth }}">
+            </div>
+
+            <!-- Checklist MagType -->
+            <div class="form-group">
+                <label>MagType (Checklist):</label>
+                <div class="checkbox-container">
+                    <label class="checkbox-label select-all-label">
+                        <input type="checkbox" id="select-all-magtype">
+                        -- Pilih Semua --
+                    </label>
+
+                    {% for opt in magtype_options %}
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="magtype-item" name="magtype" value="{{ opt }}" 
+                                   {% if opt in filters.magtype %}checked{% endif %}>
+                            {{ opt }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-submit">Filter</button>
+            </div>
+            <div class="form-group">
+                <a href="/disaster_type_pie/" class="btn-reset">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Container Chart -->
+    <div class="chart-card">
+        {% if chart_url %}
+            <img id="disaster-chart" src="data:image/png;base64,{{ chart_url }}" alt="Matplotlib Disaster Pie Chart" class="chart-img">
+            <div>
+                <button type="button" id="btn-download-chart" class="btn-download">Download Gambar (PNG)</button>
+            </div>
+        {% else %}
+            <p style="color: #888;">Tidak ada data yang sesuai dengan filter.</p>
+        {% endif %}
+    </div>
+
+    <!-- Pemanggilan File JS Eksternal -->
+    <script src="{{ url_for('static', filename='js/filter_2.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/disaster_pie.js') }}"></script>
+
+</body>
+</html>

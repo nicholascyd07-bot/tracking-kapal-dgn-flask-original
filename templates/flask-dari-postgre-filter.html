@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Data - NodeRED Playground</title>
+    <!-- Panggil CSS Eksternal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='flask-dari-postgre-filter.css') }}">
+</head>
+<body>
+
+    <h2>Filter Data Tabel: <code>nr_playground_table1</code></h2>
+
+    <!-- PANEL FORM FILTER -->
+    <div class="filter-card">
+        <form method="GET" action="/nr_playground_table1_filter/" class="filter-form">
+            
+            <!-- Filter Tanggal ( time ) -->
+            <div class="form-group">
+                <label for="start_date">Dari Tanggal:</label>
+                <input type="date" id="start_date" name="start_date" value="{{ filters.start_date }}">
+            </div>
+            <div class="form-group">
+                <label for="end_date">Sampai Tanggal:</label>
+                <input type="date" id="end_date" name="end_date" value="{{ filters.end_date }}">
+            </div>
+
+            <!-- Filter Angka ( depth ) -->
+            <div class="form-group">
+                <label for="min_depth">Min Depth:</label>
+                <input type="number" step="any" id="min_depth" name="min_depth" placeholder="Contoh: 0" value="{{ filters.min_depth }}">
+            </div>
+            <div class="form-group">
+                <label for="max_depth">Max Depth:</label>
+                <input type="number" step="any" id="max_depth" name="max_depth" placeholder="Contoh: 100000" value="{{ filters.max_depth }}">
+            </div>
+
+            <!-- Filter Dropdown ( magtype ) -->
+            <div class="form-group">
+                <label for="magtype">MagType:</label>
+                <select id="magtype" name="magtype">
+                    <option value="">-- Semua --</option>
+                    {% for opt in magtype_options %}
+                        <option value="{{ opt }}" {% if filters.magtype == opt %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter Dropdown ( type ) -->
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select id="type" name="type">
+                    <option value="">-- Semua --</option>
+                    {% for opt in type_options %}
+                        <option value="{{ opt }}" {% if filters.type == opt %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Tombol Submit & Reset -->
+            <div class="form-group">
+                <button type="submit" class="btn-submit">Filter</button>
+            </div>
+            <div class="form-group">
+                <a href="/nr_playground_table1_filter/" class="btn-reset">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABEL HASIL DATA -->
+    <div class="table-container">
+        {% if rows %}
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for col in columns %}
+                            <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p style="padding: 10px; color: #888; font-size: 11px;">Tidak ada data yang sesuai dengan filter.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

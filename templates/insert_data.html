@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muat Naik Data Excel - NodeRED Playground</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='insert_data.css') }}">
+</head>
+<body>
+
+    <div class="upload-card">
+        <h2>Muat Naik Data Excel ke <code>nr_playground_table1</code></h2>
+
+        <!-- Flash Message Notifikasi -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/insert_data/" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Pilih File Excel (.xlsx):</label>
+                <input type="file" id="file" name="file" accept=".xlsx, .xls" required>
+            </div>
+            <button type="submit" class="btn-submit">Insert into server</button>
+        </form>
+        
+        <!-- Bagian nav-links sudah dihapus di sini -->
+    </div>
+
+</body>
+</html>

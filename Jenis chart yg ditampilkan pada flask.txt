@@ -1,0 +1,34 @@
+1. Tren Kejadian Berdasarkan Waktu
+Kolom yang Digunakan: time (atau updated) & Count(id)
+Jenis Chart: Line Chart atau Area Chart
+Tujuan Visualisasi: Menampilkan tren frekuensi kejadian bencana (seperti earthquake dan landslide) dari waktu ke waktu (harian atau bulanan).   
+
+2. Perbandingan Jenis Bencana
+Kolom yang Digunakan: type
+Jenis Chart: Bar Chart / Column Chart atau Pie Chart / Donut Chart
+Tujuan Visualisasi: Melihat proporsi atau perbandingan jumlah kejadian berdasarkan jenisnya (misalnya: earthquake vs landslide).   
+
+3. Distribusi Kekuatan Bencana (Magnitude)
+Kolom yang Digunakan: mag   
+Jenis Chart: Histogram
+Tujuan Visualisasi: Menampilkan sebaran/rentang kekuatan gempa (misal: berapa banyak kejadian dengan magnitudo 3.0–4.0, 4.1–5.0, dst.).   
+
+4. Hubungan Kedalaman vs Kekuatan Gempa
+Kolom yang Digunakan: depth (Sumbu X) vs mag (Sumbu Y)   
+Jenis Chart: Scatter Plot
+Tujuan Visualisasi: Menganalisis korelasi atau pola hubungan antara kedalaman gempa (depth) dengan besarnya magnitudo (mag).   
+
+5. Pemetaan Lokasi Kejadian (Geospatial / Peta)
+Kolom yang Digunakan: latitude, longitude, mag, type   
+Jenis Chart / Map: Geographic Map / Bubble Map
+Tujuan Visualisasi: Menampilkan titik koordinat lokasi kejadian di peta dunia, dengan ukuran titik (bubble) mewakili tingkat kekuatan magnitudo (mag).   
+
+6. Status Verifikasi Data
+Kolom yang Digunakan: status atau magtype   
+Jenis Chart: Bar Chart (Horizontal) atau Pie Chart
+Tujuan Visualisasi: Membandingkan jumlah data yang berstatus reviewed vs automatic.   
+
+7. Distribusi/Kualitas Error Pengukuran
+Kolom yang Digunakan: horizontalerror, deptherror, magerror   
+Jenis Chart: Box Plot atau Bar Chart (Average Error)
+Tujuan Visualisasi: Memantau tingkat keakuratan dan estimasi margin kesalahan dari sensor/sumber data.   

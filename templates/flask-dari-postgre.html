@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raw Data - NodeRED Playground</title>
+    <!-- 1. Panggil CSS Filter agar ukuran font & padding tabel sama persis -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='flask-dari-postgre-filter.css') }}">
+</head>
+<body>
+
+    <h2>Data Tabel: <code>nr_playground_table1</code></h2>
+
+    <!-- 2. Pembungkus table-container inilah yang membatasi tinggi & lebar tabel -->
+    <div class="table-container">
+        {% if rows %}
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for col in columns %}
+                            <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p style="padding: 10px; color: #888; font-size: 11px;">Tidak ada data yang tersedia.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

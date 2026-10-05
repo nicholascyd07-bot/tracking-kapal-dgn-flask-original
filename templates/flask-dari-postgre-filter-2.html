@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Data 2 - NodeRED Playground</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='flask-dari-postgre-filter.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/filter_2.css') }}">
+    <style>
+        .btn-export {
+            background-color: #27ae60;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .btn-export:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Filter Data Tabel (Versi 2)</h2>
+
+    <div class="filter-card">
+        <form method="GET" action="/nr_playground_table_filter_2/" class="filter-form">
+            
+            <!-- Tanggal -->
+            <div class="form-group">
+                <label for="start_date">Dari Tanggal:</label>
+                <input type="date" id="start_date" name="start_date" value="{{ filters.start_date }}">
+            </div>
+            <div class="form-group">
+                <label for="end_date">Sampai Tanggal:</label>
+                <input type="date" id="end_date" name="end_date" value="{{ filters.end_date }}">
+            </div>
+
+            <!-- Depth -->
+            <div class="form-group">
+                <label for="min_depth">Min Depth:</label>
+                <input type="number" step="any" id="min_depth" name="min_depth" placeholder="Contoh: 0" value="{{ filters.min_depth }}">
+            </div>
+            <div class="form-group">
+                <label for="max_depth">Max Depth:</label>
+                <input type="number" step="any" id="max_depth" name="max_depth" placeholder="Contoh: 100000" value="{{ filters.max_depth }}">
+            </div>
+
+            <!-- Checklist MagType -->
+            <div class="form-group">
+                <label>MagType (Checklist):</label>
+                <div class="checkbox-container">
+                    <label class="checkbox-label select-all-label">
+                        <input type="checkbox" id="select-all-magtype">
+                        -- Pilih Semua --
+                    </label>
+
+                    {% for opt in magtype_options %}
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="magtype-item" name="magtype" value="{{ opt }}" 
+                                   {% if opt in filters.magtype %}checked{% endif %}>
+                            {{ opt }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Type Dropdown -->
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select id="type" name="type">
+                    <option value="">-- Semua --</option>
+                    {% for opt in type_options %}
+                        <option value="{{ opt }}" {% if filters.type == opt %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div class="form-group">
+                <button type="submit" name="action" value="filter" class="btn-submit">Filter</button>
+            </div>
+            <div class="form-group">
+                <a href="/nr_playground_table_filter_2/" class="btn-reset">Reset</a>
+            </div>
+            <div class="form-group">
+                <button type="submit" name="action" value="export" class="btn-export">Export Excel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabel Hasil -->
+    <div class="table-container">
+        {% if rows %}
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for col in columns %}
+                            <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p style="padding: 10px; color: #888; font-size: 11px;">Tidak ada data yang sesuai dengan filter.</p>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/filter_2.js') }}"></script>
+
+</body>
+</html>
